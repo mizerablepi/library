@@ -47,15 +47,15 @@ function addBookToLibrary(title, author, numberOfPages ,numberOfPagesRead, read=
 
 function displayBookCards() {
   main.innerHTML = '';
-  for (let book of myLibrary) {
-    main.appendChild(generateCardElement(book.title, book.author, book.numberOfPages, book.numberOfPagesRead, book.numberOfPagesRead, book.read));
+  for (let i = 0; i < myLibrary.length; i++) {
+    main.appendChild(generateCardElement(myLibrary[i].title, myLibrary[i].author, myLibrary[i].numberOfPages, myLibrary[i].numberOfPagesRead, myLibrary[i].read, i));
   }
 }
 
-function generateCardElement(title, author, numberOfPages, numberOfPagesRead, read) {
+function generateCardElement(title, author, numberOfPages, numberOfPagesRead, read, index) {
   let card = document.createElement('div');
   card.className = 'card';
-  card.setAttribute('data-index', myLibrary.length);
+  card.setAttribute('data-index', index);
   let titleElement = document.createElement('span');
   titleElement.className = 'card-title';
   titleElement.textContent = title;
@@ -67,7 +67,11 @@ function generateCardElement(title, author, numberOfPages, numberOfPagesRead, re
   numberOfPagesReadElement.textContent = `Pages read: ${numberOfPagesRead}`;
   let readElement = document.createElement('span');
   readElement.textContent = `Completed: ${read ? 'yes' : 'no'}`
-  card.append(titleElement, authorElement, numberOfPagesElement, numberOfPagesReadElement, readElement);
+  let removeButton = document.createElement('button');
+  removeButton.id = 'remove-book-btn';
+  // removeButton.textContent = 'Remove';
+  removeButton.innerHTML = '<img src="./icon/trash-can.svg" alt="remove book">';
+  card.append(titleElement, authorElement, numberOfPagesElement, numberOfPagesReadElement, readElement, removeButton);
   return card;
 }
 
