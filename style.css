@@ -36,14 +36,25 @@ main{
   margin-bottom: 0.5rem;
 }
 
+.button-container{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.change-status-btn {
+  margin-right: 0.8rem;
+}
+
 #remove-book-btn{
   align-self: flex-end;
-  margin-top: auto;
   background-color: red;
   border: none;
   border-radius: 0.3rem;
   font-size: 1rem;
   display: flex;
+  cursor: pointer;
 }
 
 #remove-book-btn img{
@@ -98,7 +109,7 @@ input#completed {
   padding: 0.3rem;
   font-size: 1.1rem;
   background-color: lightgreen;
-  border-style: outset;
+  border-style: double;
   cursor: pointer;
 }
 

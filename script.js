@@ -13,6 +13,7 @@ let myLibrary = [
     numberOfPages: 500,
     numberOfPagesRead: 200,
     read: false,
+    __proto__:Book.prototype,
   },
   {
     title: "metamorphosis",
@@ -20,6 +21,7 @@ let myLibrary = [
     numberOfPages: 200,
     numberOfPagesRead: 200,
     read: true,
+    __proto__:Book.prototype,
   },
   {
     title: "1984",
@@ -27,6 +29,7 @@ let myLibrary = [
     numberOfPages: 400,
     numberOfPagesRead: 0,
     read: false,
+    __proto__:Book.prototype,
   }
 ];
 
@@ -39,6 +42,11 @@ function Book(title, author, numberOfPages ,numberOfPagesRead, read) {
   this.numberOfPages = numberOfPages;
   this.numberOfPagesRead = numberOfPagesRead;
   this.read = read;
+}
+
+Book.prototype.changeReadStatus = function() {
+  this.read = !this.read;
+  displayBookCards();
 }
 
 function addBookToLibrary(title, author, numberOfPages ,numberOfPagesRead, read=false) {
@@ -67,11 +75,20 @@ function generateCardElement(title, author, numberOfPages, numberOfPagesRead, re
   numberOfPagesReadElement.textContent = `Pages read: ${numberOfPagesRead}`;
   let readElement = document.createElement('span');
   readElement.textContent = `Completed: ${read ? 'yes' : 'no'}`
+  
+  let buttonContainer = document.createElement('div');
+  buttonContainer.className = 'button-container';
   let removeButton = document.createElement('button');
   removeButton.id = 'remove-book-btn';
-  // removeButton.textContent = 'Remove';
   removeButton.innerHTML = '<img src="./icon/trash-can.svg" alt="remove book">';
-  card.append(titleElement, authorElement, numberOfPagesElement, numberOfPagesReadElement, readElement, removeButton);
+  removeButton.addEventListener('click', removeBook);
+  let changeReadStatusButton = document.createElement('button');
+  changeReadStatusButton.className = 'change-status-btn';
+  changeReadStatusButton.textContent = read ? "Mark Incomplete" : "Mark Complete";
+  changeReadStatusButton.addEventListener('click', callChangeReadStatus);
+  buttonContainer.append(changeReadStatusButton,removeButton)
+
+  card.append(titleElement, authorElement, numberOfPagesElement, numberOfPagesReadElement, readElement, buttonContainer);
   return card;
 }
 
@@ -93,4 +110,15 @@ function getInfoAndDisplayCards(e) {
 function toggleForm() {
   let overlay = document.getElementsByClassName('overlay')[0];
   overlay.classList.toggle('hidden');
+}
+
+function removeBook(event) {
+  index = event.currentTarget.parentElement.parentElement.getAttribute('data-index');
+  myLibrary.splice(index, 1);
+  displayBookCards();
+}
+
+function callChangeReadStatus(event) {
+  index = event.currentTarget.parentElement.parentElement.getAttribute('data-index');
+  myLibrary[+index].changeReadStatus();
 }
